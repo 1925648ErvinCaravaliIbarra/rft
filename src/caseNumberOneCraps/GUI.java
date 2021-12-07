@@ -1,61 +1,142 @@
-package caseNumberOneCraps;
+package PACKAGE_NAME;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.text.AttributeSet;
 import java.awt.*;
+import java.awt.event.*;
 
-/**
- * This class is used for ...
- * @autor Paola-J Rodriguez-C paola.rodriguez@correounivalle.edu.co
- * @version v.1.0.0 date:21/11/2021
- */
-public class GUI extends JFrame {
+public class GUI PRESENTATION  extends JFrame {
+    // Atributos
+    private JButton miFoto, miHobby, misExpectativas;
+    private Titulos titulo;
+    private JPanel panelBotones, panelDatos;
+    private Escucha escucha;
+    private JLabel labelImage;
+    private JTextArea textoExpectativas;
 
-    private Header headerProject;
-
-    /**
-     * Constructor of GUI class
-     */
-    public GUI(){
+    // Metodos
+    public GUI PRESENTATION() {
         initGUI();
-
-        //Default JFrame configuration
-        this.setTitle("The Title app");
-        this.setSize(200,100);
-        //this.pack();
-        this.setResizable(true);
-        this.setVisible(true);
+        this.setTitle("Mi Presentacion");
+        this.setSize(600, 540);
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    /**
-     * This method is used to set up the default JComponent Configuration,
-     * create Listener and control Objects used for the GUI class
-     */
     private void initGUI() {
-        //Set up JFrame Container's Layout
-        //Create Listener Object and Control Object
-        //Set up JComponents
-        headerProject = new Header("Header ...", Color.BLACK);
+        escucha = new Escucha();
+        titulo = new Titulos("Hola soy Ervin,oprime los botones...", Color.BLACK);
+        this.add(titulo, BorderLayout.NORTH);
+        panelDatos = new JPanel();
+        panelDatos.addMouseListener(escucha);
+        panelDatos.addKeyListener(escucha);
+        panelDatos.setFocusable(true);
 
-        this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
+        panelDatos.setBorder(BorderFactory.createTitledBorder(null, "Un poco mas de mi...",
+                TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
+                new Font("Calibri", Font.PLAIN, 30), Color.BLACK));
+        this.add(panelDatos, BorderLayout.CENTER);
+        miFoto = new JButton("Este soy yo");
+        miFoto.addMouseListener(escucha);
+        miHobby = new JButton("Este es mi Hobby");
+        miHobby.addMouseListener(escucha);
+        misExpectativas = new JButton("Creo que...");
+        misExpectativas.addKeyListener(escucha);
+        panelBotones = new JPanel();
+        panelBotones.add(miFoto);
+        panelBotones.add(miHobby);
+        panelBotones.add(misExpectativas);
+        this.add(panelBotones, BorderLayout.SOUTH);
+        labelImage = new JLabel();
+        textoExpectativas = new JTextArea(10, 12);
+        Font textoExpectativas = new Font("Calibri", 3, 30);
+
     }
 
-    /**
-     * Main process of the Java program
-     * @param args Object used in order to send input data from command line when
-     *             the program is execute by console.
-     */
-    public static void main(String[] args){
-        EventQueue.invokeLater(() -> {
-            GUI miProjectGUI = new GUI();
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GUI PRESENTATION miGUIPrentacion = new GUI PRESENTATION();
+            }
         });
     }
 
-    /**
-     * inner class that extends an Adapter Class or implements Listeners used by GUI class
-     */
-    private class Escucha {
+    private class Escucha implements MouseListener, KeyListener {
 
+        private ImageIcon image;
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            panelDatos.removeAll();
+            if(e.getSource()==miHobby&&e.getClickCount()==2){
+
+                image= new ImageIcon(getClass().getResource("/recursos/LecturaGusto.png"));
+                labelImage.setIcon(image);
+                panelDatos.add(labelImage);
+
+            }else{
+                if((e.getSource()==miFoto)&&e.getClickCount()==1){
+                    image= new ImageIcon(getClass().getResource("/recursos/ErvinCaravali.jpg"));
+                    labelImage.setIcon(image);
+                    panelDatos.add(labelImage);
+
+                }
+            }
+            revalidate();
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+
+
+        }
+
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            if(e.getKeyCode()==KeyEvent.VK_M) {
+                textoExpectativas.setText("no tengo conocimientos amplios en java, me gustaria crear GUI's");
+                panelDatos.add(textoExpectativas);
+
+            }
+            revalidate();
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
     }
 }
+
+
+
